@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye Tracker</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="eye-container">
+        <div class="iris">
+            <div class="pupil"></div>
+        </div>
+        <div class="glare"></div>
+    </div>
+    <div class="text-container">
+        <h1 id="text">Вас обнаружили!</h1>
+        <p id="desc">Мы отслеживаем ваше местоположение...</p>
+        <div class="coordinates">
+            <span>Широта: <span id="latitude">-</span></span>
+            <span>Долгота: <span id="longitude">-</span></span>
+        </div>
+				<div class="city-info">
+					<p id="city"></p>
+				</div>
+    </div>
+		<script src="scripts/app.js"></script>
+</body>
+</html>

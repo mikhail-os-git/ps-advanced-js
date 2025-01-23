@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Selector</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Select a Pokemon</h1>
+        <div class="select-container">
+            <label for="pokemon-select">Pokemons:</label>
+            <select id="pokemon-select">
+                <option value="">-- Please select a Pokemon --</option>
+            </select>
+        </div>
+        <div id="description-container" class="desc hidden">
+            <h2>Pokemon Description</h2>
+            <p id="short-effect"class="hidden"></p>
+            <p id="effect"class="hidden"></p>
+
+        </div>
+        <div id="error-message" class="error hidden"></div>
+    </div>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
