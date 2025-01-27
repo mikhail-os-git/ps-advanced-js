@@ -6,22 +6,32 @@ const promises = [
 
 
 async function race(promises) {
-let firstResolved = null;
-promises.forEach((promise) => {
-  promise
-    .then((value) => {
-      if (!firstResolved) {
-        firstResolved = value;
-				console.log(firstResolved);
-      }
-    })
-    .catch((reason) => {
-      if (!firstResolved) {
-				firstResolved = reason;
-      console.log(new Error('error:' + firstResolved));
-      }
-    });
-});
+	// let firstResolved = null;
+// promises.forEach((promise) => {
+//   promise
+//     .then((value) => {
+//       if (!firstResolved) {
+//         firstResolved = value;
+// 				// console.log(firstResolved);
+//       }
+//     })
+//     .catch((reason) => {
+//       if (!firstResolved) {
+// 				firstResolved = new Error(`Error: ${reason}`);
+//       }
+//     });
+// });
+
+	return new Promise((resolve, reject) => {
+    for (const promise of promises) {
+      Promise.resolve(promise)
+        .then(resolve)
+        .catch(reject);
+    }
+  });
+
 }
 
-race(promises);
+
+console.log(race(promises));
+console.log(Promise.race(promises));
