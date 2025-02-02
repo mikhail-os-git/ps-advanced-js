@@ -21,53 +21,33 @@ function myPosition() {
     });
 }
 
-function getCityFromCoordinates(latitude, longitude) {
+async function getCityFromCoordinates() {
+    let data;
+    try {
+        data = await myPosition();
+				console.log(data)
+    } catch (err) {
+        console.log("Ошибка получения координат:", err);
+        return;
+    }
+
+    const { latitude, longitude } = data.coords;
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
 
-    return fetch(url)
-        .then(response => 
-				{
-					if(!response.ok){
-						throw new Error('Error: '+response.status);
-					}
-					return response.json()
-				}).then(data => {
-						if(!data)
-						{
-							throw new Error('Error: '+ data.status);
-						}
-								return data.address.city || data.address.town || data.address.village;
-						});
+    let city;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Ошибка запроса: ' + response.status);
+        }
+        const json = await response.json();
+        city = json.address.city || json.address.town || json.address.village;
+    } catch (err) {
+        console.log("Ошибка получения города:", err);
+    }
+
+    detection(latitude, longitude, city);
 }
-
-
-let latitude;
-let longitude;
-
-myPosition()
-    .then(({ coords: { latitude: lat, longitude: lon } }) => {
-        latitude = lat;
-        longitude = lon;
-    })
-    .catch(error => {
-        console.error('Ошибка получения геопозиции:', error);
-    });
-
-setTimeout(() => {
-    console.log(`Широта: ${latitude}, Долгота: ${longitude}`);
-
-    getCityFromCoordinates(latitude, longitude)
-        .then(geo => {
-            setTimeout(() => {
-                console.log(geo);
-									detection(latitude, longitude, geo);
-            }, 1000);
-        })
-        .catch(error => {
-            console.error('Ошибка получения геопозиции:', error);
-        });
-}, 1000);
-
 
 
 function detection(latitude, longitude, city){
@@ -79,10 +59,8 @@ function detection(latitude, longitude, city){
 				page.city.innerText = city;
     }
 
-    // if (city !== null) {
-    //     page.city.innerText = city;
-    // }
-
 	page.title.text.innerText = text;
 	page.title.desc.innerText = desc;
 }
+
+getCityFromCoordinates();
